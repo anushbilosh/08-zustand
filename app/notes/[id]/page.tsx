@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
     description: note.content.slice(0, 30),
     openGraph: {
       type: "article",
-      url: `https://notehub.com/notes/${id}`,
+      url: `https://08-zustand-eight-delta.vercel.app/notes/${id}`,
       title: `Note: ${note.title}`,
       description: note.content.slice(0, 100),
       images: [
