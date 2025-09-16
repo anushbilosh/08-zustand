@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: "Sorry, the page you are looking for does not exist",
     images: [
       {
-        url: "https://seocom.agency/wp-content/uploads/2024/05/Errores-Web-404-403-503-502-401.-Significado-y-soluciones-1.jpg.webp",
+        url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
         width: 1200,
         height: 630,
         alt: "Sorry, the page you are looking for does not exist",
