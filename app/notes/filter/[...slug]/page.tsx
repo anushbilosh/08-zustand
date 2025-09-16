@@ -1,0 +1,52 @@
+import { fetchNotes } from "@/lib/api";
+import {
+  QueryClient,
+  HydrationBoundary,
+  dehydrate,
+} from "@tanstack/react-query";
+import NotesClient from "@/app/notes/filter/[...slug]/Notes.client";
+
+type Props = {
+  params: Promise<{ slug: string[] }>;
+};
+
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
+  const raw = slug?.[0] ?? "all";
+  const filter = raw.toLowerCase() === "all" ? undefined : raw;
+  return {
+    title: `NoteHub: ${filter}`,
+    description: `Notes were filtered by ${filter} tag`,
+    openGraph: {
+      type: "website",
+      url: "https://example.com",
+      title: `NoteHub: ${filter}`,
+      description: `Notes were filtered by ${filter} tag`,
+      images: [
+        {
+          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+          width: 1200,
+          height: 630,
+          alt: `NoteHub: ${filter}`,
+        },
+      ],
+    },
+  };
+}
+
+export default async function Notes({ params }: Props) {
+  const { slug } = await params;
+  const raw = slug?.[0] ?? "all";
+  const filter = raw.toLowerCase() === "all" ? undefined : raw;
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["notes", { page: 1, query: "", tag: filter }],
+    queryFn: () => fetchNotes({ page: 1, query: "", tag: filter }),
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <NotesClient filter={filter} />
+    </HydrationBoundary>
+  );
+}
