@@ -5,12 +5,13 @@ import {
   dehydrate,
 } from "@tanstack/react-query";
 import NotesClient from "@/app/notes/filter/[...slug]/Notes.client";
+import { Metadata } from "next";
 
 type Props = {
   params: Promise<{ slug: string[] }>;
 };
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const raw = slug?.[0] ?? "all";
   const filter = raw.toLowerCase() === "all" ? undefined : raw;
